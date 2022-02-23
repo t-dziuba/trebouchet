@@ -1,0 +1,13 @@
+last 2 version
+android >= 98
+chrome >= 98
+edge >= 98
+firefox >= 97
+ios_saf >= 14
+op_mob >= 64
+opera >= 83
+safari >= 15.1
+samsung >= 16.0
+not ie 6-11
+> 1%
+not dead

@@ -4,9 +4,9 @@
   "description": "\"simple game powered by threejs - throwing stones by trebouchet\"",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && webpack",
-    "start": "npm run clean && webpack serve",
-    "test": "jest",
+    "build": "cross-env NODE_ENV=production npm run clean && webpack",
+    "start": "cross-env NODE_ENV=development npm run clean && webpack serve",
+    "test": "cross-env NODE_ENV=test jest",
     "lint:ts": "npm run eslint . --ext .js,.ts",
     "clean": "rm -rf ./dist"
   },
@@ -21,12 +21,14 @@
   },
   "homepage": "https://github.com/t-dziuba/trebouchet#readme",
   "dependencies": {
+    "oimo": "^1.0.9",
     "three": "^0.137.5"
   },
   "devDependencies": {
     "@types/three": "^0.137.0",
     "autoprefixer": "^10.4.2",
     "browserlist": "^1.0.1",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.6.0",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-typescript": "^16.1.0",

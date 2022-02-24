@@ -19,10 +19,22 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "types": ["jest", "./src/typings"]
+    "types": ["jest", "typings"],
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "public/*"],
+      "@libs/*": ["src/libs/*"],
+      "@textures/*": ["public/textures/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@meshes/*": ["src/meshes/*"],
+      "@scenes/*": ["src/scenes/*"],
+      "@styles/*": ["src/styles/*"],
+      "Ammo": ["src/libs/libs/ammo.wasm.js"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "*.test.ts"]
+  "include": ["src", "typings"],
+  "exclude": ["node_modules", "dist"]
 }

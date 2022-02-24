@@ -1,16 +1,43 @@
 const path = require('path');
+const tsconfig = require('./tsconfig.json');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const mode = process.env.NODE_ENV || 'development';
+const isProduction = mode === 'production';
+
 module.exports = {
-  mode: 'development',
+  mode,
   context: process.cwd(),
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     publicPath: '/',
+  },
+  optimization: {
+    chunkIds: 'named',
+    concatenateModules: true,
+    mangleExports: isProduction,
+    mergeDuplicateChunks: true,
+    splitChunks: !isProduction
+      ? {}
+      : {
+          chunks: 'async',
+          cacheGroups: {
+            defaultVendors: {
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10,
+              reuseExistingChunk: true,
+            },
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+          },
+        },
   },
   module: {
     rules: [
@@ -49,6 +76,14 @@ module.exports = {
   resolve: {
     extensions: ['.wasm', '.ts', '.tsx', '.mjs', '.cjs', '.js', '.json', '.html', '.scss'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    // alias: {
+    //   Ammo: path.resolve(__dirname, 'public/lib/ammo.wasm.js'),
+    // },
+    alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
+      aliases[aliasName] = path.resolve(__dirname, `src/${tsconfig.compilerOptions.paths[aliasName][0]}`);
+
+      return aliases;
+    }, {}),
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
